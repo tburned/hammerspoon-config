@@ -1,3 +1,10 @@
+-- Config file watcher
+
+hs.loadSpoon("ReloadConfiguration")
+spoon.ReloadConfiguration:start()
+
+-- Code
+
 hyper = {"ctrl", "alt", "cmd", "shift"}
 
 hs.hotkey.bind(hyper, "W", function()
@@ -10,10 +17,35 @@ hs.hotkey.bind(hyper, "J", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  f.x = max.x
   f.y = max.y
-  f.w = max.w / 2
   f.h = max.h
+
+  local half_screen_x = math.floor(max.x)
+  local half_screen_w = math.floor(max.w / 2)
+
+  local third_screen_x = math.floor(max.x)
+  local third_screen_w = math.floor(max.w / 3)
+
+  local two_third_screen_x = math.floor(max.x)
+  local two_third_screen_w = math.floor(max.w / 3 * 2)
+
+  -- half -> 1/3 -> 2/3 -> half
+  if (half_screen_x == f.x and half_screen_w == f.w)
+  then
+  	print("Found half screen; going to third")
+  	f.x = third_screen_x
+  	f.w = third_screen_w
+  elseif (third_screen_x == f.x and third_screen_w == f.w)
+  then
+  	 print("Found third screen; going to two thirds")
+  	f.x = two_third_screen_x
+  	f.w = two_third_screen_w
+  else
+  	print("Going to half screen")
+  	f.x = half_screen_x
+  	f.w = half_screen_w
+  end
+
   win:setFrame(f)
 end)
 
@@ -23,10 +55,34 @@ hs.hotkey.bind(hyper, "L", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  f.x = max.x + (max.w / 2)
   f.y = max.y
-  f.w = max.w / 2
   f.h = max.h
+
+  local half_screen_x = math.floor(max.x + (max.w / 2))
+  local half_screen_w = math.floor(max.w / 2)
+
+  local third_screen_x = math.floor(max.x + (max.w / 3 * 2))
+  local third_screen_w = math.floor(max.w / 3)
+
+  local two_third_screen_x = math.floor(max.x + (max.w / 3))
+  local two_third_screen_w = math.floor(max.w / 3 * 2)
+
+  if (half_screen_x == f.x and half_screen_w == f.w)
+  then
+  	print("Found half screen; going to third")
+  	f.x = third_screen_x
+  	f.w = third_screen_w
+  elseif (third_screen_x == f.x and third_screen_w == f.w)
+  then
+  	 print("Found third screen; going to two thirds")
+  	f.x = two_third_screen_x
+  	f.w = two_third_screen_w
+  else
+  	print("Going to half screen")
+  	f.x = half_screen_x
+  	f.w = half_screen_w
+  end
+
   win:setFrame(f)
 end)
 
@@ -49,7 +105,3 @@ end)
 hs.hotkey.bind(hyper, "]", function()
   hs.spotify.next()
 end)
--- Config file watcher
-
-hs.loadSpoon("ReloadConfiguration")
-spoon.ReloadConfiguration:start()
