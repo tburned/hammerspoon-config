@@ -91,20 +91,7 @@ hs.hotkey.bind(hyper, "K", function()
 end)
 
 hs.hotkey.bind(hyper, "I", function()
-  local win = hs.window.focusedWindow()
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
-
-  f.y = max.y
-  f.h = max.h
-
-  if (f.w != max.w)
-  then
-    hs.window.focusedWindow():maximize()
-  else
-    
-  end
+  hs.window.focusedWindow():maximize()
 end)
 
 hs.hotkey.bind(hyper, "P", function()
@@ -118,3 +105,13 @@ end)
 hs.hotkey.bind(hyper, "]", function()
   hs.spotify.next()
 end)
+
+newUsbWatcher = function ()
+  hs.usb.watcher.new(function(usb)
+    hs.notify.new({title="USB device " .. usb.eventType, informativeText=usb.productName .. " " .. usb.eventType}):send()
+  end):start()
+end
+
+newUsbWatcher()
+
+
