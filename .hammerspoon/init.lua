@@ -91,7 +91,20 @@ hs.hotkey.bind(hyper, "K", function()
 end)
 
 hs.hotkey.bind(hyper, "I", function()
-  hs.window.focusedWindow():maximize()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.y = max.y
+  f.h = max.h
+
+  if (f.w != max.w)
+  then
+    hs.window.focusedWindow():maximize()
+  else
+    
+  end
 end)
 
 hs.hotkey.bind(hyper, "P", function()
